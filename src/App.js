@@ -1,23 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import CardList from './CardList';
 
 function App() {
+
+ const [adsData, setAdsData]=useState({facebookAds:[], twitterAds:[], snapchatAds:[], googleAnalytics:[]})
+ 
+
+  useEffect(()=>{
+    fetch("http://localhost:3000/fakeDataSet")
+    .then((r)=>r.json())
+    .then((data)=>setAdsData({facebookAds:data.facebook_ads, twitterAds: data.twitter_ads, snapchatAds: data.snapchat_ads, googleAnalytics: data.google_analytics}))
+  },[])
+
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CardList adsData={adsData}/>
     </div>
   );
 }
